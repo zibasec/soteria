@@ -10,4 +10,4 @@ Start by installing BATS
 
 Then run
 
-`./run.sh`
+`sudo bash run.sh`
