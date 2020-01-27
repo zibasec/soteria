@@ -11,11 +11,13 @@ if [[ `whoami` != "root" ]]; then
 fi
 
 @test "FireVault is enabled" {
+  # Mac OS 10.15 Enable via System Preferences > Security & Privacy
   result="$(fdesetup status)"
   [[ ${result} == "FileVault is On." ]]
 }
 
 @test "Firewall is enabled" {
+  # Mac OS 10.15 Enable via System Preferences > Security & Privacy
   result="$(defaults read /Library/Preferences/com.apple.alf globalstate)"
   [[ ${result} -eq 1 ]]
 }
@@ -76,6 +78,8 @@ fi
 
 @test "New terminal session must re-prompt for sudo password" {
   # Fix by adding 'Defaults tty_tickets' to /etc/sudoers
+  # if you run into complaints that your user is not in the sudoers file, you can add '<yourusername> ALL=(ALL) ALL' to the file
+  # Make sure that the 'Defaults tty_tickets' is declared before the line adding your user.
   result="$(grep tty_tickets /etc/sudoers)"
   [[ ${result} =~ ^Defaults.*tty_tickets$ ]]
 }
