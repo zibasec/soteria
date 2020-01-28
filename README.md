@@ -14,7 +14,7 @@ Then clone or fetch updates to this repo locally
 
 Then run
 
-`sudo bats run.sh`
+`chmod +x ./run.sh && sudo ./run.sh`
 
 Any failures can be remediated using the Fix comment in `run.sh`
 
