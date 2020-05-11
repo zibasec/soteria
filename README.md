@@ -1,21 +1,33 @@
-![Soteria the Greek God of Safety](./soteria.jpg "Soteria the Greek God of Safety")
-
 # Soteria
 
-A simple script that checks your macbook for sane security defaults.
+![Soteria the Greek God of Safety](./soteria.jpg "Soteria the Greek God of Safety")
 
-Start by installing BATS
+A simple script that checks your machine for sane security defaults.
+
+Start by installing [BATS](https://github.com/bats-core/bats-core):
 
 `brew install bats-core`
 
-Then clone or fetch updates to this repo locally
+On Linux you may require `bats`:
+
+`sudo apt install bats`
+
+Then clone or fetch updates to this repo locally:
 
 `git clone git@github.com:zibasec/soteria.git`
 
-Then run
+Then run the required script according to your OS. For example, on Mac OS:
 
-`chmod +x ./run.sh && sudo ./run.sh`
+`chmod +x ./mac-os.sh && sudo ./mac-os.sh`
 
-Any failures can be remediated using the Fix comment in `run.sh`
+Any failures can be remediated using the `Fix` comments in the scripts.
 
 Re-run checks until they all pass.
+
+## Audit rules for `auditd`
+
+The file [`linux-auditd-rules.txt`](linux-auditd-rules.txt) is provided for convenience of meeting the checked requirements and some additional STIG-inspired rules. To use:
+
+```bash
+sudo cp ./linux-auditd-rules.txt  /etc/audit/audit.rules
+```

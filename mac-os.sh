@@ -1,8 +1,8 @@
-#!/usr/bin/env bats -p
+#!/usr/bin/env -S bats -p
 #
 # (c) 2019 ZibaSec Inc
 #
-# Audits a MacOS/Linux System for sane security defaults
+# Audits a MacOS System for sane security defaults
 #
 
 if [[ `whoami` != "root" ]]; then
