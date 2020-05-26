@@ -74,7 +74,7 @@ fi
 
 @test "Auditing is configured and active" {
     # Fix by installing auditd: `sudo apt install auditd`
-    result="$(service auditd status | grep Active)"
+    result="$(systemctl status auditd | grep Active)"
     [[ ${result} == *"Active: active (running)"* ]]
 }
 
