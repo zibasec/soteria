@@ -22,22 +22,9 @@ fi
     [[ ! -z "$result" ]]
 }
 
-@test "FTP is not installed" {
-    # Fix by uninstalling any of the packages present
-    run command -v vsftpd
-    [[ "$status" -eq 1 ]]
-    run command -v tftpd
-    [[ "$status" -eq 1 ]]
-    run command -v ftpd
-    [[ "$status" -eq 1 ]]
-    run command -v atftpd
-    [[ "$status" -eq 1 ]]
-}
-
-@test "Telnet is not installed" {
-    # Fix by uninstalling 'telnetd'
-    run command -v telnetd
-    [[ "$status" -eq 1 ]]
+@test "FTP is not running" {
+    run systemctl status ftpd
+    [[ "$status" -eq 4 ]]
 }
 
 @test "Remote shell is not installed" {
@@ -88,64 +75,64 @@ fi
 }
 
 @test "Audit admin-level actions (kernel modules, etc)" {
-    # Fix by adding `-w /etc/sudoers -p wa -k actions` to /etc/audit/audit.rules
+    # Fix by adding `-w /etc/sudoers -p wa -k actions` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-w /etc/sudoers -p wa -k actions' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-w /etc/sudoers.d/ -p wa -k actions` to /etc/audit/audit.rules
+    # Fix by adding `-w /etc/sudoers.d/ -p wa -k actions` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-w /etc/sudoers.d/ -p wa -k actions' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
 }
 
 @test "Audit access restriction enforcement" {
-    # Fix by adding `-a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=unset -F key=perm_mod' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=unset -F key=perm_mod' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b32 -S lchown,fchown,chown,fchownat -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b32 -S lchown,fchown,chown,fchownat -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b32 -S lchown,fchown,chown,fchownat -F auid>=1000 -F auid!=unset -F key=perm_mod' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b64 -S chown,fchown,lchown,fchownat -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b64 -S chown,fchown,lchown,fchownat -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b64 -S chown,fchown,lchown,fchownat -F auid>=1000 -F auid!=unset -F key=perm_mod' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b32 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b32 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b32 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=unset -F key=perm_mod' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=unset -F key=perm_mod` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=unset -F key=perm_mod' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EACCES -F auid>=1000 -F auid!=unset -F key=access` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EACCES -F auid>=1000 -F auid!=unset -F key=access` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EACCES -F auid>=1000 -F auid!=unset -F key=access' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EPERM -F auid>=1000 -F auid!=unset -F key=access` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EPERM -F auid>=1000 -F auid!=unset -F key=access` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EPERM -F auid>=1000 -F auid!=unset -F key=access' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EACCES -F auid>=1000 -F auid!=unset -F key=access` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EACCES -F auid>=1000 -F auid!=unset -F key=access` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EACCES -F auid>=1000 -F auid!=unset -F key=access' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-a always,exit -F arch=b64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EPERM -F auid>=1000 -F auid!=unset -F key=access` to /etc/audit/audit.rules
+    # Fix by adding `-a always,exit -F arch=b64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EPERM -F auid>=1000 -F auid!=unset -F key=access` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-a always,exit -F arch=b64 -S open,truncate,ftruncate,creat,openat,open_by_handle_at -F exit=-EPERM -F auid>=1000 -F auid!=unset -F key=access' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
 }
 
 @test "Audit login/access type actions" {
-    # Fix by adding `-w /var/log/tallylog -p wa -k logins` to /etc/audit/audit.rules
+    # Fix by adding `-w /var/log/tallylog -p wa -k logins` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-w /var/log/tallylog -p wa -k logins' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-w /var/run/faillock/ -p wa -k logins` to /etc/audit/audit.rules
+    # Fix by adding `-w /var/run/faillock/ -p wa -k logins` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-w /var/run/faillock/ -p wa -k logins' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-w /var/log/lastlog -p wa -k logins` to /etc/audit/audit.rules
+    # Fix by adding `-w /var/log/lastlog -p wa -k logins` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-w /var/log/lastlog -p wa -k logins' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-w /var/run/utmp -p wa -k session` to /etc/audit/audit.rules
+    # Fix by adding `-w /var/run/utmp -p wa -k session` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-w /var/run/utmp -p wa -k session' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-w /var/log/btmp -p wa -k session` to /etc/audit/audit.rules
+    # Fix by adding `-w /var/log/btmp -p wa -k session` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-w /var/log/btmp -p wa -k session' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
-    # Fix by adding `-w /var/log/wtmp -p wa -k session` to /etc/audit/audit.rules
+    # Fix by adding `-w /var/log/wtmp -p wa -k session` to /etc/audit/rules.d/audit.rules
     result="$(grep -i '\-w /var/log/wtmp -p wa -k session' /etc/audit/audit.rules)"
     [[ ! -z "$result" ]]
 }

@@ -26,8 +26,9 @@ Re-run checks until they all pass.
 
 ## Audit rules for `auditd`
 
-The file [`linux-auditd-rules.txt`](linux-auditd-rules.txt) is provided for convenience of meeting the checked requirements and some additional STIG-inspired rules. To use:
+The file [`linux-auditd-rules.txt`](linux-auditd-rules.txt) is provided for convenience of meeting the checked requirements. To use, add the rules to `audit.rules` with:
 
 ```bash
-sudo cp ./linux-auditd-rules.txt  /etc/audit/audit.rules
+sudo vim /etc/audit/rules.d/audit.rules
+sudo augenrules --load
 ```
