@@ -80,6 +80,10 @@ fi
   # Fix by adding 'Defaults tty_tickets' to /etc/sudoers
   # if you run into complaints that your user is not in the sudoers file, you can add '<yourusername> ALL=(ALL) ALL' to the file
   # Make sure that the 'Defaults tty_tickets' is declared before the line adding your user.
+  # MacOS users:
+  # - Navigate to ~
+  # - Run ``sudo visudo`` to open the vim editor. Vim cheatsheet: https://devhints.io/vim
+  # - Make sure to save and exit before rerunning soteria
   result="$(grep tty_tickets /etc/sudoers)"
   [[ ${result} =~ ^Defaults.*tty_tickets$ ]]
 }
